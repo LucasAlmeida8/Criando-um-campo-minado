@@ -1,0 +1,95 @@
+import java.util.Scanner;
+
+public class CaminhoMinado {
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        int tamanho, numeroDeBombas, posicao, contador = 0, pontos = 0;
+        boolean errou = false;
+
+        // Solicita o tamanho do caminho
+        do {
+            System.out.print("Digite o tamanho do caminho: ");
+            tamanho = entrada.nextInt();
+        } while (tamanho <= 1);
+
+        // Solicita o número de bombas
+        do {
+            System.out.print("Digite o número de bombas: ");
+            numeroDeBombas = entrada.nextInt();
+        } while (numeroDeBombas <= 0 && numeroDeBombas >= tamanho);
+
+        // Inicializa o caminho
+        int[] caminho = new int[tamanho];
+        for (int i = 0; i < caminho.length; i++) {
+            caminho[i] = 0;
+        }
+
+        // Coloca as bombas no caminho
+        do {
+            posicao = (int) (Math.random() * tamanho);
+            if (caminho[posicao] == 0) {
+                caminho[posicao] = -1;
+                contador++;
+            }
+        } while (contador < numeroDeBombas);
+
+        // Jogo
+        do {
+            // Imprime o caminho
+            for (int i = 0; i < caminho.length; i++) {
+                if (caminho[i] == 0 || caminho[i] == -1) {
+                    System.out.print(" _ ");
+                } else {
+                    System.out.print(" x ");
+                }
+            }
+            System.out.println();
+            for (int i = 0; i < caminho.length; i++) {
+                System.out.print("[" + i + "]");
+            }
+
+            // Solicita a posição
+            do {
+                System.out.print("\nInforme uma posição: ");
+                posicao = entrada.nextInt();
+            } while (caminho[posicao] == 1);
+
+            // Verifica se o jogador acertou uma bomba
+            if (caminho[posicao] == -1) {
+                errou = true;
+            } else {
+                caminho[posicao] = 1;
+                pontos++;
+
+                // Verifica se há bombas próximas
+                if (posicao == 0) {
+                    if (caminho[posicao + 1] == -1) {
+                        System.out.println("CUIDADO: bomba próxima!");
+                    }
+                } else if (posicao == (tamanho - 1)) {
+                    if (caminho[tamanho - 2] == -1) {
+                        System.out.println("CUIDADO: bomba próxima!");
+                    }
+                } else if (caminho[posicao - 1] == -1 || caminho[posicao + 1] == -1) {
+                    System.out.println("CUIDADO: bomba próxima");
+		
+	 																// Ganhou
+									for (int i = 0; i < caminho.length; i++) {
+									if (caminho[i] == 1) {
+										System.out.print(" x ");
+								} else if (caminho[i] == -1) {
+										System.out.print(" b ");
+								} else {
+										System.out.print(" _ ");
+							}
+								}
+										System.out.println();
+									for (int i = 0; i < caminho.length; i++) {
+										System.out.print("[" + i + "]");
+	}
+											System.out.println("\nParabéns, você ganhou o jogo!");
+												System.out.println("Pontuação: " + pontos + "/" + (tamanho - numeroDeBombas));
+								
+	}
+	}				
+}
